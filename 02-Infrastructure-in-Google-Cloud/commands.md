@@ -78,6 +78,56 @@ gcloud storage objects update gs://bucket-name/filename.jpg \
 --remove-acl-grant=allUsers
 ```
 
+
+---
+
+## Lab 2 - Cloud SQL for MySQL
+
+### Connect to a Cloud SQL instance
+
+```bash
+gcloud sql connect myinstance --user=root
+```
+
+### Create a database
+
+```sql
+CREATE DATABASE guestbook;
+```
+
+### Use the database
+
+```sql
+USE guestbook;
+```
+
+### Create a table
+
+```sql
+CREATE TABLE entries (
+    guestName VARCHAR(255),
+    content VARCHAR(255),
+    entryID INT NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY(entryID)
+);
+```
+
+### Insert records
+
+```sql
+INSERT INTO entries (guestName, content)
+VALUES ("first guest", "I got here!");
+
+INSERT INTO entries (guestName, content)
+VALUES ("second guest", "Me too!");
+```
+
+### Query records
+
+```sql
+SELECT * FROM entries;
+```
+
 ### Delete an object
 
 ```bash
