@@ -309,3 +309,80 @@ gcloud pubsub topics publish MyTopic --message "Publisher thinks Pub/Sub is awes
 ```bash
 python subscriber.py $GOOGLE_CLOUD_PROJECT receive MySub
 ```
+
+
+# Download the lab files
+
+gcloud storage cp gs://PROJECT_ID-bucket/user-authentication-with-iap.zip .
+
+# Extract files
+
+unzip user-authentication-with-iap.zip
+
+# Enter project
+
+cd user-authentication-with-iap
+
+# -----------------------------
+# Task 1
+# -----------------------------
+
+cd 1-HelloWorld
+
+gcloud run deploy user-auth-lab \
+--source . \
+--allow-unauthenticated \
+--region=us-central1
+
+# -----------------------------
+# Task 2
+# -----------------------------
+
+cd ~/user-authentication-with-iap/2-HelloUser
+
+gcloud run deploy user-auth-lab \
+--source . \
+--region=us-central1
+
+# Get Cloud Run URL
+
+gcloud run services describe user-auth-lab \
+--region=us-central1 \
+--format='value(status.url)'
+
+# Test fake user header
+
+curl -X GET YOUR_SERVICE_URL \
+-H "X-Goog-Authenticated-User-Email: totally fake email"
+
+# -----------------------------
+# Task 3
+# -----------------------------
+
+cd ~/user-authentication-with-iap/3-HelloVerifiedUser
+
+gcloud run deploy user-auth-lab \
+--source . \
+--set-env-vars IAP_AUDIENCE="YOUR_CLIENT_ID" \
+--region=us-central1
+
+# Get Cloud Run URL
+
+gcloud run services describe user-auth-lab \
+--region=us-central1 \
+--format='value(status.url)'
+
+# Allow IAP Service Agent to invoke Cloud Run
+
+gcloud run services add-iam-policy-binding user-auth-lab \
+--member="serviceAccount:service-$(gcloud projects describe PROJECT_ID --format='value(projectNumber)')@gcp-sa-iap.iam.gserviceaccount.com" \
+--role="roles/run.invoker" \
+--region=us-central1
+
+
+
+# List files inside a Cloud Storage bucket
+
+gcloud storage ls gs://hamdanbucket02
+
+gs://hamdanbucket02/sample.txt
