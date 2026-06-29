@@ -75,3 +75,122 @@
 - A **subscription** allows subscribers to receive messages from a topic.
 - Publishers send messages to topics, while subscribers pull or receive those messages.
 - Python client libraries simplify interaction with Google Cloud services.
+
+- # Lab 5 – User Authentication: Identity-Aware Proxy (GSP499)
+
+## Objective
+Learn how to protect a Cloud Run application using Identity-Aware Proxy (IAP), retrieve authenticated user information, and verify the identity using cryptographic JWT verification.
+
+## Concepts Learned
+
+### Identity-Aware Proxy (IAP)
+- Restricts access to web applications.
+- Authenticates users using their Google account.
+- Only authorized users can access the application.
+
+### Cloud Run
+- Serverless platform for deploying containerized applications.
+- Hosts the sample Python Flask application.
+
+### User Identity Headers
+IAP automatically adds these request headers:
+- X-Goog-Authenticated-User-Email
+- X-Goog-Authenticated-User-ID
+
+These headers allow the application to identify the authenticated user.
+
+### JWT Verification
+To prevent header spoofing, the application verifies:
+
+- X-Goog-IAP-JWT-Assertion
+
+using Google's public keys.
+
+## Lab Flow
+
+### Task 1
+- Download the lab files.
+- Deploy the HelloWorld application to Cloud Run.
+- Enable Identity-Aware Proxy.
+- Grant yourself the IAP-Secured Web App User role.
+- Verify only authorized users can access the application.
+
+### Task 2
+- Deploy the HelloUser application.
+- Read user email and user ID from IAP headers.
+- Display authenticated user information.
+- Disable IAP to demonstrate header spoofing.
+- Test spoofing using curl.
+
+### Task 3
+- Deploy the HelloVerifiedUser application.
+- Configure the IAP_AUDIENCE environment variable.
+- Verify JWT tokens using Google's public keys.
+- Enable IAP again.
+- Grant the IAP service account the Cloud Run Invoker role.
+- Confirm verified email and user ID are displayed.
+
+## Key Learning
+
+- IAP protects applications without modifying application logic.
+- User identity can be retrieved from request headers.
+- Request headers alone are not secure.
+- JWT verification ensures identity information cannot be spoofed.
+- Cloud Run integrates easily with Identity-Aware Proxy.
+
+# Lab 6 – Cloud IAM: Qwik Start (GSP064)
+
+## Objective
+Learn how Google Cloud Identity and Access Management (IAM) controls user permissions by assigning, removing, and testing different roles.
+
+## Concepts Learned
+
+### Cloud IAM
+Identity and Access Management (IAM) controls who can access Google Cloud resources and what actions they can perform.
+
+### Basic IAM Roles
+
+- Owner
+  - Full control over project resources.
+  - Can manage IAM permissions.
+
+- Editor
+  - Can create, modify and delete resources.
+
+- Viewer
+  - Read-only access.
+
+- Browser
+  - Can browse project resources but cannot access resource contents.
+
+### Storage Object Viewer
+A service-specific role that allows users to view Cloud Storage objects without granting access to the entire project.
+
+## Lab Flow
+
+### Task 1
+- Sign in using two accounts.
+- Username 1 is the Project Owner.
+- Username 2 is the Project Viewer.
+- Explore IAM roles and permissions.
+
+### Task 2
+- Create a Cloud Storage bucket.
+- Upload sample.txt.
+- Verify Username 2 can view the bucket.
+
+### Task 3
+- Remove Project Viewer role from Username 2.
+- Confirm Username 2 loses project access.
+
+### Task 4
+- Grant Storage Object Viewer role to Username 2.
+- Verify Username 2 can still access bucket objects using Cloud Shell.
+
+## Key Learning
+
+- IAM follows the Principle of Least Privilege.
+- Project-level roles apply to all resources.
+- Service-specific roles provide limited access.
+- Removing a project role immediately revokes project permissions.
+- Users should receive only the permissions necessary to perform their tasks.
