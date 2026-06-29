@@ -45,7 +45,7 @@ Unlike guided labs, this challenge required me to apply the knowledge learned th
 
 - **notes.md** – Summary of the challenge and key concepts.
 - **commands.md** – Main commands used during the challenge.
-- **screenshots/** – Screenshots showing the completed tasks and successful deployment.
+
 
 ---
 
